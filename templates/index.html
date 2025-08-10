@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMS Classifier</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>SMS <span>Classifier</span></h1>
+            <p class="tagline">Spam Detection System</p>
+        </header>
+
+        <main>
+            <div class="classifier-box">
+                <div class="input-section">
+                    <h2><i class="fas fa-sms"></i> SMS Text Analyzer</h2>
+                    <form method="POST">
+                        <div class="form-group">
+                            <textarea name="message" placeholder="Paste SMS content here..." required></textarea>
+                            <div class="char-count">0/160 characters</div>
+                        </div>
+                        <button type="submit" class="analyze-btn">
+                            <i class="fas fa-shield-alt"></i> Analyze Message
+                        </button>
+                    </form>
+                </div>
+
+                {% if result %}
+                <div class="result-section {{ 'spam' if result.label == 'spam' else 'ham' }}">
+                    <div class="result-header">
+                        <h3>
+                            <i class="fas fa-{{ 'exclamation-triangle' if result.label == 'spam' else 'check-circle' }}"></i>
+                            Classification: <span>{{ result.label | upper }}</span>
+                        </h3>
+                        <div class="confidence">
+                            Confidence: {{ [result.spam_probability, result.ham_probability] | max * 100 | round(1) }}%
+                        </div>
+                    </div>
+
+                    <div class="probability-meter">
+                        <div class="meter-labels">
+                            <span>HAM ({{ (result.ham_probability * 100) | round(1) }}%)</span>
+                            <span>SPAM ({{ (result.spam_probability * 100) | round(1) }}%)</span>
+                        </div>
+                        <div class="meter-container">
+                            <div class="meter-bar">
+                                <div class="ham-progress" style="width: {{ result.ham_probability * 100 }}%"></div>
+                                <div class="spam-progress" style="width: {{ result.spam_probability * 100 }}%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card ham-stat">
+                            <div class="stat-value">{{ (result.ham_probability * 100) | round(1) }}%</div>
+                            <div class="stat-label">Legitimate</div>
+                        </div>
+                        <div class="stat-card spam-stat">
+                            <div class="stat-value">{{ (result.spam_probability * 100) | round(1) }}%</div>
+                            <div class="stat-label">Spam Risk</div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </main>
+
+        <footer>
+            <p>© 2024 SMS Classifier</p>
+        </footer>
+    </div>
+
+    <script>
+        // Character counter for textarea
+        const textarea = document.querySelector('textarea');
+        const charCount = document.querySelector('.char-count');
+        
+        textarea.addEventListener('input', () => {
+            const count = textarea.value.length;
+            charCount.textContent = `${count}/160 characters`;
+            charCount.style.color = count > 160 ? '#ff4444' : '#666';
+        });
+    </script>
+</body>
+</html>
