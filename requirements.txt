@@ -3,4 +3,5 @@ keras
 pandas
 numpy
 setuptools
+gunicorn
 
