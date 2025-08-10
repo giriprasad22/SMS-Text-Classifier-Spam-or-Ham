@@ -1,5 +1,6 @@
-Flask>=2.0.0
-keras>=2.0.0
-pandas>=1.0.0
-numpy>=1.0.0
-setuptools>=68.0.0
+Flask
+keras
+pandas
+numpy
+setuptools
+
