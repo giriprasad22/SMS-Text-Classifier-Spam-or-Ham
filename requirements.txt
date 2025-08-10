@@ -4,4 +4,5 @@ pandas
 numpy
 setuptools
 gunicorn
+joblib
 
