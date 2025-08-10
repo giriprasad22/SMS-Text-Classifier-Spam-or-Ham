@@ -1,5 +1,5 @@
-Flask==3.0.2
-pandas==2.0.2
-scikit-learn==1.2.2
-numpy==1.24.3  # Required for scikit-learn 1.2.2
-setuptools==69.5.1  # Explicitly add setuptools
+Flask>=2.0.0
+keras>=2.0.0
+pandas>=1.0.0
+numpy>=1.0.0
+setuptools>=68.0.0
